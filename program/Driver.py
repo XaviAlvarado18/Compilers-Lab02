@@ -9,6 +9,7 @@ def main(argv):
     stream = CommonTokenStream(lexer)
     parser = MiniLangParser(stream)
     tree = parser.prog()  # We are using 'prog' since this is the starting rule based on our MiniLang grammar, yay!
+    print(tree.toStringTree(recog=parser))
 
 if __name__ == '__main__':
     main(sys.argv)
