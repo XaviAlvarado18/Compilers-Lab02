@@ -1,0 +1,7 @@
+version: ’3’
+services:
+antlr:
+build: .
+volumes:
+- .:/usr/src/app
+command: ["bash"]
