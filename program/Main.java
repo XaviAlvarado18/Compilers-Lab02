@@ -1,40 +1,61 @@
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
+import java.io.IOException;
+
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        // Verificar que se haya proporcionado un archivo de entrada
         if (args.length != 1) {
-            System.err.println("Usage: java Main <input-file>");
-            System.exit(1);
+            System.err.println("Uso: java Main <archivo>");
+            return;
         }
 
+        // Leer el archivo de entrada
         String inputFile = args[0];
+        CharStream input = CharStreams.fromFileName(inputFile);
 
-        try {
-            // Cargar el archivo de entrada
-            CharStream input = CharStreams.fromFileName(inputFile);
+        // Crear el lexer
+        MiniLangLexer lexer = new MiniLangLexer(input);
 
-            // Crear el lexer
-            MiniLangLexer lexer = new MiniLangLexer(input);
+        // Añadir el manejador de errores personalizado al lexer
+        lexer.removeErrorListeners();
+        lexer.addErrorListener(MiniLangErrorListener.INSTANCE);
 
-            // Crear el buffer de tokens
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
+        // Crear el token stream
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-            // Crear el parser
-            MiniLangParser parser = new MiniLangParser(tokens);
+        // Crear el parser
+        MiniLangParser parser = new MiniLangParser(tokens);
 
-            // Iniciar el análisis sintáctico por la regla inicial de tu gramática
-            ParseTree tree = parser.prog(); // Asumiendo que 'prog' es la regla inicial
+        // Añadir el manejador de errores personalizado al parser
+        parser.removeErrorListeners();
+        parser.addErrorListener(MiniLangErrorListener.INSTANCE);
 
-            // Imprimir el árbol de sintaxis (opcional)
-            System.out.println(tree.toStringTree(parser));
+        // Parsear el archivo de entrada
+        ParseTree tree = parser.prog(); // La regla de inicio de tu gramática
 
-            // Implementar el análisis semántico (opcional)
-            // MiniLangBaseVisitorImpl visitor = new MiniLangBaseVisitorImpl();
-            // visitor.visit(tree);
+        // Si no hubo errores, imprimir el árbol sintáctico
+       
+        System.out.println(tree.toStringTree(parser));
+        
+    }
+}
 
-        } catch (Exception e) {
-            e.printStackTrace();
+
+public class MiniLangErrorListener extends BaseErrorListener {
+    public static final MiniLangErrorListener INSTANCE = new MiniLangErrorListener();
+
+    @Override
+    public void syntaxError(Recognizer<?, ?> recognizer,
+                            Object offendingSymbol,
+                            int line, int charPositionInLine,
+                            String msg,
+                            RecognitionException e) {
+        String sourceName = recognizer.getInputStream().getSourceName();
+        if (!sourceName.isEmpty()) {
+            sourceName = String.format("%s:%d:%d: ", sourceName, line, charPositionInLine);
         }
+        System.err.println(sourceName + "linee " + line + ":" + charPositionInLine + " " + msg);
     }
 }
