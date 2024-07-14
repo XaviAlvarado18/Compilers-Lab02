@@ -1,0 +1,5 @@
+a = 10
+b = "hello"
+c = "world"
+d = a + 5
+e = b + c

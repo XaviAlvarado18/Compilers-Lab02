@@ -1,0 +1,7 @@
+def add(a, b) do
+    result = a + b
+end
+
+x = 10
+y = 20
+z = add(x, y)

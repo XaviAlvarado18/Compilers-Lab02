@@ -5,5 +5,5 @@ a = 4
 -- Asignacion de 4 para a
 b = 6
 -- no deberia de haber problema
-var1 = a + b 
+c = a + b
 -- Suma de a y b
