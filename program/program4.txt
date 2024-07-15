@@ -1,0 +1,9 @@
+a = 10
+b = 5
+c = 2
+
+result1 = a + b * c
+result2 = (a + b) * c
+result3 = a * (b + c)
+result4 = (a * b) + c
+result5 = (a + b) * (c + a)
