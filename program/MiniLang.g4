@@ -5,12 +5,15 @@ prog:   stat+ ;
 stat:   expr NEWLINE                 # printExpr
     |   ID '=' expr NEWLINE          # assign
     |   ifStat                       # ifStatement
+    |   whileStat                    # whileStatement
     |   funcDef                      # functionDefinition
     |   funcCall NEWLINE             # functionCall
     |   NEWLINE                      # blank
     ;
 
 ifStat: 'if' expr 'then' stat* ('else' stat*)? 'endif' NEWLINE ;
+
+whileStat: 'while' expr 'do' stat* 'endwhile' NEWLINE ;
 
 funcDef: 'def' ID '(' params? ')' 'do' stat* 'end' ;
 
@@ -43,6 +46,6 @@ GE  : '>=' ; // define token for greater than or equal to
 ID  : [a-zA-Z]+ ; // match identifiers
 INT : [0-9]+ ; // match integers
 STRING : '"' .*? '"' ; // match strings
-NEWLINE: '\r'? '\n' ; // return newlines to parser (is end-statement signal)
+NEWLINE:'\r'? '\n' ; // return newlines to parser (is end-statement signal)
 WS  : [ \t]+ -> skip ; // toss out whitespace
 COMMENT: '--' ~[\r\n]* -> skip ;

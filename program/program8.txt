@@ -1,0 +1,20 @@
+a = 5
+b = 10
+if a < b then
+    print "a is less than b"
+endif
+if a == 5 then
+    print "a is equal to 5"
+endif
+if b != 5 then
+    print "b is not equal to 5"
+endif
+if b > a then
+    print "b is greater than a"
+endif
+if a <= b then
+    print "a is less than or equal to b"
+endif
+if b >= a then
+    print "b is greater than or equal to a"
+endif
